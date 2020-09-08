@@ -31,6 +31,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/email_txt"
                 android:inputType="textEmailAddress"
                 android:hint="@string/email"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -44,13 +45,15 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:id="@+id/password_txt"
+                android:inputType="textPassword"
                 android:hint="@string/password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
        <androidx.appcompat.widget.AppCompatButton
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           android:id="@+id/login_btn"
            android:layout_marginTop="10dp"
            android:layout_marginBottom="10dp"
            android:text="@string/login"/>
@@ -58,7 +61,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signUp_link"
+            android:id="@+id/signup_link"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:gravity="center"
