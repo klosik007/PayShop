@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "653992653099",
+    "firebase_url": "https://payshop-e584d.firebaseio.com",
+    "project_id": "payshop-e584d",
+    "storage_bucket": "payshop-e584d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653992653099:android:e3679fd6477bdb61e8d56e",
+        "android_client_info": {
+          "package_name": "com.pklos.payshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653992653099-recq03jo8u6gmbfke7rcu8lc7l0pp6u9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBidwNqKY7QEak2iGHWu9U9cdsw7fvmRHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653992653099-recq03jo8u6gmbfke7rcu8lc7l0pp6u9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
