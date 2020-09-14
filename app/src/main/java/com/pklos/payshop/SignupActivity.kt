@@ -3,23 +3,30 @@ package com.pklos.payshop
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class SignupActivity : AppCompatActivity() {
     private val TAG : String = "SignupActivity"
 
-    private var _nameTxt : EditText? = null
-    private var _emailTxt : EditText? = null
-    private var _passwordTxt : EditText? = null
-    private var _signupBtn : Button? = null
-    private var _login_link : TextView? = null
+    private lateinit var _nameTxt : EditText
+    private lateinit var _emailTxt : EditText
+    private lateinit var _passwordTxt : EditText
+    private lateinit var _signupBtn : Button
+    private lateinit var _login_link : TextView
 
     private val handler = Handler()
+
+    private lateinit var mAuth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +38,16 @@ class SignupActivity : AppCompatActivity() {
         _signupBtn = findViewById(R.id.signup_btn)
         _login_link = findViewById(R.id.login_link)
 
-        _signupBtn?.setOnClickListener{
+        _signupBtn.setOnClickListener{
             signUp()
         }
 
-        _login_link?.setOnClickListener {
+        _login_link.setOnClickListener {
             //finish signup activity -> login activity
             finish()
         }
+
+        mAuth = FirebaseAuth.getInstance()
     }
 
     private fun signUp(){
@@ -47,78 +56,76 @@ class SignupActivity : AppCompatActivity() {
             return
         }
 
-        _signupBtn?.isEnabled = false
+        _signupBtn.isEnabled = false
 
         val progressDialog = AppUtils.setProgressDialog(this, "Creating account in progress...")
         progressDialog.show()
 
-        val name : String = _nameTxt?.text.toString()
-        val email : String = _emailTxt?.text.toString()
-        val password : String = _passwordTxt?.text.toString()
+        //val name : String = _nameTxt?.text.toString()
+        val email : String = _emailTxt.text.toString()
+        val password : String = _passwordTxt.text.toString()
 
         //signup logic here
-        if (checkIfUserExists(name, email, password)){
-            handler.postDelayed({
-                onSignupFailed()
-                progressDialog.dismiss()
-            }, 3000)
-        }
-        else{
-            handler.postDelayed({
-                onSignupSuccess()
-                progressDialog.dismiss()
-            }, 3000)
-        }
+        mAuth.createUserWithEmailAndPassword(email, password)
+             .addOnCompleteListener(this, OnCompleteListener {
+                 task ->
+                 if(task.isSuccessful){
+                     Toast.makeText(this, "Successfully Registered", Toast.LENGTH_LONG).show()
+                     handler.postDelayed({
+                         onSignupSuccess()
+                         progressDialog.dismiss()
+                     }, 2000)
+                 }else {
+                     Toast.makeText(this, "Registration Failed", Toast.LENGTH_LONG).show()
+                     handler.postDelayed({
+                         onSignupFailed()
+                         progressDialog.dismiss()
+                     }, 2000)
+                 }
+             })
     }
 
     private fun onSignupSuccess(){
-        _signupBtn?.isEnabled = true
+        _signupBtn.isEnabled = false
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
     private fun onSignupFailed(){
         Toast.makeText(baseContext, "Signup Failed! User Already Exists", Toast.LENGTH_LONG).show()
-        _signupBtn?.isEnabled = true
+        _signupBtn.isEnabled = true
     }
 
     private fun validateSignupData(): Boolean {
         var valid = true
 
-        val name : String = _nameTxt?.text.toString()
-        val email : String = _emailTxt?.text.toString()
-        val password : String = _passwordTxt?.text.toString()
+        /*val name : String = _nameTxt?.text.toString()*/
+        val email : String = _emailTxt.text.toString()
+        val password : String = _passwordTxt.text.toString()
 
-        if (name.isEmpty() || name.length < 4){
+        /*if (name.isEmpty() || name.length < 4){
             _nameTxt?.error = "Enter Valid Name"
             valid = false
         } else {
             _nameTxt?.error = null
-        }
+        }*/
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            _emailTxt?.error = "Enter Valid Email Address"
+            _emailTxt.error = "Enter Valid Email Address"
             valid = false
         } else {
-            _emailTxt?.error = null
+            _emailTxt.error = null
         }
 
         if (password.isEmpty() || password.length < 4){
-            _passwordTxt?.error = "Password Length Below 4 Characters"
+            _passwordTxt.error = "Password Length Below 4 Characters"
             valid = false
         } else{
-            _passwordTxt?.error = null
+            _passwordTxt.error = null
         }
 
         return valid
-    }
-
-    private fun checkIfUserExists(name: String, email: String, password: String) : Boolean{
-        //simple hardcoded authentication, for test
-        if (name.equals("Przemo") && email.equals("xxx@xxx.com") && password.equals("xxx")){
-            return true
-        }
-
-        return false
     }
 
     override fun onBackPressed() {
