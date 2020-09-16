@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser
 class SignupActivity : AppCompatActivity() {
     private val TAG : String = "SignupActivity"
 
-    private lateinit var _nameTxt : EditText
     private lateinit var _emailTxt : EditText
     private lateinit var _passwordTxt : EditText
     private lateinit var _signupBtn : Button
@@ -32,7 +31,6 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        _nameTxt = findViewById(R.id.name_txt)
         _emailTxt = findViewById(R.id.email_txt)
         _passwordTxt = findViewById(R.id.password_txt)
         _signupBtn = findViewById(R.id.signup_btn)
@@ -100,16 +98,8 @@ class SignupActivity : AppCompatActivity() {
     private fun validateSignupData(): Boolean {
         var valid = true
 
-        /*val name : String = _nameTxt?.text.toString()*/
         val email : String = _emailTxt.text.toString()
         val password : String = _passwordTxt.text.toString()
-
-        /*if (name.isEmpty() || name.length < 4){
-            _nameTxt?.error = "Enter Valid Name"
-            valid = false
-        } else {
-            _nameTxt?.error = null
-        }*/
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             _emailTxt.error = "Enter Valid Email Address"
