@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var _passwordTxt : EditText
     private lateinit var _loginBtn : Button
     private lateinit var _signup_link : TextView
+    private lateinit var _forgotPass_link : TextView
 
     private val handler = Handler()
 
@@ -35,14 +36,19 @@ class LoginActivity : AppCompatActivity() {
         _passwordTxt =  findViewById(R.id.password_txt)
         _loginBtn = findViewById(R.id.login_btn)
         _signup_link = findViewById(R.id.signup_link)
+        _forgotPass_link = findViewById(R.id.forgotPass_link)
 
         _loginBtn.setOnClickListener{
             login()
         }
 
         _signup_link.setOnClickListener {
-            //sign up activity start
             val intent = Intent(applicationContext, SignupActivity::class.java)
+            startActivityForResult(intent, REQUEST_SIGNUP)
+        }
+
+        _forgotPass_link.setOnClickListener{
+            val intent = Intent(applicationContext, ForgotPasswordActivity::class.java)
             startActivityForResult(intent, REQUEST_SIGNUP)
         }
 
