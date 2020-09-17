@@ -30,8 +30,13 @@ abstract class LoginRegisterActivity : AppCompatActivity() {
     abstract var layout : Int
 
     abstract var toastMsg : String
-    abstract var cls : Class<AppCompatActivity>
     abstract var actionMsg : String
+
+    abstract var emailTxtId : Int
+    abstract var passwordTxtId : Int
+    abstract var actionBtnId : Int
+    abstract var forgotPassLinkId : Int
+    abstract var loginOrSignUpLinkId : Int
 
     lateinit var progressDialog : AlertDialog
 
@@ -39,11 +44,11 @@ abstract class LoginRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layout)
 
-        _emailTxt = findViewById(R.id.email_txt)
-        _passwordTxt = findViewById(R.id.password_txt)
-        _actionBtn = findViewById(R.id.signup_btn)
-        _link = findViewById(R.id.login_link)
-        _forgotPass_link = findViewById(R.id.forgotPass_link)
+        _emailTxt = findViewById(emailTxtId)
+        _passwordTxt = findViewById(passwordTxtId)
+        _actionBtn = findViewById(actionBtnId)
+        _link = findViewById(loginOrSignUpLinkId)
+        _forgotPass_link = findViewById(forgotPassLinkId)
 
         _actionBtn.setOnClickListener{
             performAction()
@@ -51,10 +56,22 @@ abstract class LoginRegisterActivity : AppCompatActivity() {
 
         _link.setOnClickListener {
             //finish signup activity -> login activity
-            finish()
+            startActivityOnLinkView()
+        }
+
+        _forgotPass_link.setOnClickListener{
+            startForgotPassActivity()
         }
 
         mAuth = FirebaseAuth.getInstance()
+    }
+
+    abstract fun startActivityOnLinkView()
+
+    fun startForgotPassActivity(){
+        val intent = Intent(this, ForgotPasswordActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     fun performAction(){
@@ -79,7 +96,7 @@ abstract class LoginRegisterActivity : AppCompatActivity() {
 
     fun onSuccess(){
         _actionBtn.isEnabled = true
-        val intent = Intent(this, cls)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -110,9 +127,5 @@ abstract class LoginRegisterActivity : AppCompatActivity() {
         }
 
         return valid
-    }
-
-    override fun onBackPressed() {
-        moveTaskToBack(true)
     }
 }
