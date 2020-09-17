@@ -69,5 +69,16 @@
             android:layout_marginTop="36dp"
             android:text="@string/already_member"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/empty_link"
+            android:textColor="@android:color/black"
+            android:textSize="0sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            />
+
     </LinearLayout>
 </ScrollView>
