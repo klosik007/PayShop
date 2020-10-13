@@ -1,18 +1,12 @@
-package com.pklos.payshop
+package com.pklos.payshop.activities
 
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.pklos.payshop.R
 
 
 class SignupActivity : LoginRegisterActivity() {
