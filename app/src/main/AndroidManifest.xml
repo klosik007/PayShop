@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +24,12 @@
         </activity>
 
         <activity
-            android:name=".SignupActivity"
+            android:name=".activities.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.MainActivity" />
 
-        <activity android:name=".ForgotPasswordActivity"
+        <activity android:name=".activities.ForgotPasswordActivity"
                   android:theme="@style/AppTheme.Dark"/>
     </application>
 
