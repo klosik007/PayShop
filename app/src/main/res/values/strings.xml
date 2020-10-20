@@ -16,4 +16,6 @@
     <string name="nav_favorites">Favorites</string>
     <string name="nav_basket">Basket</string>
     <string name="nav_profile">Profile</string>
+
+    <string name="good">Good</string>
 </resources>
