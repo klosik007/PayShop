@@ -1,7 +1,7 @@
 package com.pklos.payshop.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pklos.payshop.R
@@ -14,6 +14,11 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         bottomNavView.setOnNavigationItemSelectedListener(bottomNavListener)
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.view_pager, HomeFragment())
+            .commit()
     }
 
     private val bottomNavListener: BottomNavigationView.OnNavigationItemSelectedListener =
