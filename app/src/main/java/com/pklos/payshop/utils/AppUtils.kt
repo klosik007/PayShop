@@ -9,6 +9,10 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import java.sql.Date
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class AppUtils{
     companion object {
@@ -58,6 +62,17 @@ class AppUtils{
                 dialog.window?.attributes = layoutParams
             }
             return dialog
+        }
+
+        fun printWelcomeMessageOnDayTime(): String {
+            val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+            return when (hour) {
+                in 6..12 -> "Morning"
+                in 13..18 -> "Afternoon"
+                in 19..23 -> "Evening"
+                else -> "Night"
+            }
         }
     }
 }
