@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/search_result_item_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ID:"/>
+    <TextView
+        android:id="@+id/search_result_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name:"/>
+    <TextView
+        android:id="@+id/search_result_item_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category:"/>
+    <TextView
+        android:id="@+id/search_result_item_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price:"/>
+    <TextView
+        android:id="@+id/search_result_item_isFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Favorite item:"/>
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+<!--
+        id = 0,
+        name = "Bread",
+        category = Category.FOOD,
+        price = 2.50f,
+        isFavorite = false
+-->

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.pklos.payshop.R
+import com.pklos.payshop.playground.Data
+import com.pklos.payshop.playground.Item
 import com.pklos.payshop.utils.AppUtils
 
 class HomeFragment: Fragment() {
@@ -21,10 +23,16 @@ class HomeFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //super.onViewCreated(view, savedInstanceState)
-        val dayTime = AppUtils.printWelcomeMessageOnDayTime()
+        showWelcomeMessageOnDayTime(view)
+    }
 
+    private fun showWelcomeMessageOnDayTime(view: View) {
+        val dayTime = AppUtils.printWelcomeMessageOnDayTime()
         welcomeTextView = view.findViewById(R.id.welcomeTextView)
         welcomeTextView.text = "${getString(R.string.good)} $dayTime"
+    }
+
+    private fun showItemsOnScreen(){
+
     }
 }
