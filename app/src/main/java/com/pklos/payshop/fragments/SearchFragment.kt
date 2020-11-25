@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +70,7 @@ class SearchFragment: Fragment() {
 
         override fun getItemCount(): Int  = items.size //how many items are displayed
 
-        class SearchItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        class SearchItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
             private var view: View = itemView
             private var item: Item? = null
 
@@ -79,6 +80,12 @@ class SearchFragment: Fragment() {
                 view.category.text = item.category.toString()
                 view.price.text = item.price.toString()
                 view.isFavorite.text = item.isFavorite.toString()
+                view.setOnClickListener(this)//relevant if setting onClick listener!!!
+            }
+
+            override fun onClick(v: View?) {
+                val context = view.context
+                Toast.makeText(context, "${item?.name} klik!", Toast.LENGTH_LONG).show()
             }
         }
     }
