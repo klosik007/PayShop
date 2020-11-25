@@ -24,6 +24,7 @@ class SearchFragment: Fragment() {
     private var dataItems: List<Item> = Data.dataList
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
+    private lateinit var itemRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +33,8 @@ class SearchFragment: Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
         linearLayoutManager = LinearLayoutManager(context)
-        search_results_recycler_view.layoutManager = linearLayoutManager
+        itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
+        itemRecyclerView.layoutManager = linearLayoutManager
         updateUI()
         return view
     }
@@ -46,7 +48,7 @@ class SearchFragment: Fragment() {
 
     private fun updateUI(){
         mAdapter = RecyclerAdapter(dataItems)
-        search_results_recycler_view.adapter = mAdapter
+        itemRecyclerView.adapter = mAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
