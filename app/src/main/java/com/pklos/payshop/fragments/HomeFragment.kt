@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.pklos.payshop.R
-import com.pklos.payshop.playground.Data
-import com.pklos.payshop.playground.Item
 import com.pklos.payshop.utils.AppUtils
 
 class HomeFragment: Fragment() {

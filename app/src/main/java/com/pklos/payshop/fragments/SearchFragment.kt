@@ -1,12 +1,9 @@
 package com.pklos.payshop.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,22 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pklos.payshop.R
-import com.pklos.payshop.activities.MainActivity
-import com.pklos.payshop.playground.Data
-import com.pklos.payshop.playground.Item
-import com.pklos.payshop.playground.inflate
-import com.pklos.payshop.utils.AppUtils
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.pklos.payshop.data.ExampleData
+import com.pklos.payshop.data.Item
+import com.pklos.payshop.data.inflate
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
-import org.w3c.dom.Text
 
 class SearchFragment: Fragment() {
-    private var dataItems: List<Item> = Data.dataList
+    private var dataItems: List<Item> = ExampleData.dataList
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
-
-    private var db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
