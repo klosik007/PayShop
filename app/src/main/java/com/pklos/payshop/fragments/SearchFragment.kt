@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.pklos.payshop.R
 import com.pklos.payshop.activities.MainActivity
 import com.pklos.payshop.playground.Data
@@ -26,6 +28,8 @@ class SearchFragment: Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
+
+    private var db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
