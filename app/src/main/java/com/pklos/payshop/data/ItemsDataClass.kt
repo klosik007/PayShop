@@ -5,7 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 enum class Category{
-    HOME, SPORT, FOOD
+    HOME, SPORT, FOOD, NONE
 }
 
 data class Item(val id: Int, val name: String, val category: Category, val price: Float, var isFavorite: Boolean) {
@@ -58,17 +58,39 @@ object ExampleData{
 }
 
 object FirebaseData{
-    var retreivedData = hashMapOf<Int, String>()
-
     private var db = Firebase.firestore
-    val firebaseData = db.collection("items").get()
-        .addOnSuccessListener { docs ->
-            for (document in docs){
-                Log.d("docs", "${document.id} => ${document.data}")
-                retreivedData.put(document.id.toInt(), document.data.toString())
+
+    private lateinit var dataItem: Item
+
+    fun firebaseDataDownload(clb: MyCallback){
+        db.collection("items").get()
+            .addOnSuccessListener { docs ->
+                val dataList = mutableListOf<Item>()
+                var id = 0
+                for (item in docs){
+                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("\"").removeSuffix("\"")
+                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("=").toBoolean()
+                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=").toFloat()
+                    dataItem = Item(
+                        id = id,
+                        name = item.id,
+                        category = when(category){
+                            "HOME" -> Category.HOME
+                            "SPORT" -> Category.SPORT
+                            "FOOD" -> Category.FOOD
+                            else -> Category.NONE
+                        },
+                        price = price,
+                        isFavorite = isFavorite
+                    )
+                    id.inc()
+                    dataList.add(dataItem)
+                    Log.d("fireBaseDownload", "${item.id} => ${item.data}")
+                }
+                clb.onCallback(dataList)
             }
-        }
-        .addOnFailureListener { exception ->
-            Log.w("docs", "Error getting documents: ", exception)
-        }
+            .addOnFailureListener { exception ->
+                Log.w("docs", "Error getting documents: ", exception)
+            }
+    }
 }
