@@ -8,16 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.pklos.payshop.R
-import com.pklos.payshop.data.ExampleData
-import com.pklos.payshop.data.Item
-import com.pklos.payshop.data.inflate
+import com.pklos.payshop.data.*
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
 class SearchFragment: Fragment() {
-    private var dataItems: List<Item> = ExampleData.dataList
+    private lateinit var dataItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
@@ -28,6 +24,11 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
+        FirebaseData.firebaseDataDownload(object : MyCallback {
+            override fun onCallback(value: List<Item>) {
+                dataItems = value
+            }
+        })
         linearLayoutManager = LinearLayoutManager(context)
         itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
         itemRecyclerView.layoutManager = linearLayoutManager
