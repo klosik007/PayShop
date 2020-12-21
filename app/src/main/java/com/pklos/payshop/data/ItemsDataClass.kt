@@ -68,10 +68,9 @@ object FirebaseData{
                 val dataList = mutableListOf<Item>()
                 var id = 0
                 for (item in docs){
-                    Log.d("item", "${item.id}  ${item.data}")
-                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("=").toFloat()
-                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("\"").removeSuffix("\"")
-                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=").toBoolean()
+                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("\"").removeSuffix("\"")
+                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("=").toBoolean()
+                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=").toFloat()
                     dataItem = Item(
                         id = id,
                         name = item.id,
@@ -86,6 +85,7 @@ object FirebaseData{
                     )
                     id.inc()
                     dataList.add(dataItem)
+                    Log.d("fireBaseDownload", "${item.id} => ${item.data}")
                 }
                 clb.onCallback(dataList)
             }
