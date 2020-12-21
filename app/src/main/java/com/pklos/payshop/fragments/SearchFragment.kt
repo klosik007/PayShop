@@ -1,6 +1,7 @@
 package com.pklos.payshop.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.pklos.payshop.data.*
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
 class SearchFragment: Fragment() {
-    private lateinit var dataItems: List<Item>
+    private lateinit var FirebaseItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
@@ -26,25 +27,18 @@ class SearchFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
         FirebaseData.firebaseDataDownload(object : MyCallback {
             override fun onCallback(value: List<Item>) {
-                dataItems = value
+                FirebaseItems = value
+                linearLayoutManager = LinearLayoutManager(context)
+                itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
+                itemRecyclerView.layoutManager = linearLayoutManager
+                updateUI()
             }
         })
-        linearLayoutManager = LinearLayoutManager(context)
-        itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
-        itemRecyclerView.layoutManager = linearLayoutManager
-        updateUI()
         return view
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        if(dataItems.isEmpty()){
-//
-//        }
-//    }
-
     private fun updateUI(){
-        mAdapter = RecyclerAdapter(dataItems)
+        mAdapter = RecyclerAdapter(FirebaseItems)
         itemRecyclerView.adapter = mAdapter
     }
 
