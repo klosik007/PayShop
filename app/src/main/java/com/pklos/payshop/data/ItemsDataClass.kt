@@ -8,9 +8,9 @@ enum class Category{
     HOME, SPORT, FOOD, NONE
 }
 
-data class Item(val id: Int, val name: String, val category: Category, val price: Float, var isFavorite: Boolean) {
+data class Item(val id: Int, val name: String, val category: Category, val price: Float, var isFavorite: Boolean, val imageUrl: String, val itemDescription: String) {
     override fun toString(): String {
-        return "Id: $id \n Name: $name \n Category: $category \n Price: $price \n Is favorite: $isFavorite"
+        return "Id: $id \n Name: $name \n Category: $category \n Price: $price \n Is favorite: $isFavorite \n Image URL: $imageUrl \n Item Description: "
     }
 }
 
@@ -25,9 +25,13 @@ object FirebaseData{
                 val dataList = mutableListOf<Item>()
                 var id = 0
                 for (item in docs){
-                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("=").toFloat()
-                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("=")
-                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=").toBoolean()
+                    Log.d("item", item.data.toString())
+                    val imageUrl = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("=")
+                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("=").toFloat()
+                    val itemDescription = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=")
+                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[3].substringAfter("=")
+                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[4].substringAfter("=").toBoolean()
+
                     dataItem = Item(
                         id = id,
                         name = item.id,
@@ -38,7 +42,9 @@ object FirebaseData{
                             else -> Category.NONE
                         },
                         price = price,
-                        isFavorite = isFavorite
+                        isFavorite = isFavorite,
+                        imageUrl = imageUrl,
+                        itemDescription = itemDescription
                     )
                     id.inc()
                     dataList.add(dataItem)
