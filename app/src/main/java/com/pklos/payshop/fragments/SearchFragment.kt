@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pklos.payshop.R
 import com.pklos.payshop.data.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
 class SearchFragment: Fragment() {
-    private lateinit var FirebaseItems: List<Item>
+    private lateinit var firebaseItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
@@ -27,7 +28,7 @@ class SearchFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
         FirebaseData.firebaseDataDownload(object : MyCallback {
             override fun onCallback(value: List<Item>) {
-                FirebaseItems = value
+                firebaseItems = value
                 linearLayoutManager = LinearLayoutManager(context)
                 itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
                 itemRecyclerView.layoutManager = linearLayoutManager
@@ -38,7 +39,7 @@ class SearchFragment: Fragment() {
     }
 
     private fun updateUI(){
-        mAdapter = RecyclerAdapter(FirebaseItems)
+        mAdapter = RecyclerAdapter(firebaseItems)
         itemRecyclerView.adapter = mAdapter
     }
 
@@ -70,6 +71,8 @@ class SearchFragment: Fragment() {
                 view.category.text = item.category.toString()
                 view.price.text = item.price.toString()
                 view.isFavorite.text = item.isFavorite.toString()
+                Picasso.get().load(item.imageUrl).resize(140, 140).centerCrop().into(view.itemImage)
+                view.itemDescription.text = item.itemDescription.replace("\\n", "\n")
                 view.setOnClickListener(this)//relevant if setting onClick listener!!!
             }
 
