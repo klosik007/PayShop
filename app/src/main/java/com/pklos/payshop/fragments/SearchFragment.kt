@@ -65,12 +65,36 @@ class SearchFragment: Fragment() {
             private var view: View = itemView
             private var item: Item? = null
 
+
             fun bindItem(item: Item){
+                var isFavoriteChoice = 0
+
                 this.item = item
                 view.name.text = item.name
-                view.category.text = item.category.toString()
+                view.category.text = view.context.getString(R.string.category, item.category.toString())
                 view.price.text = item.price.toString()
-                view.isFavorite.text = item.isFavorite.toString()
+                //view.isFavorite.text = item.isFavorite.toString()
+                isFavoriteChoice = if (!item.isFavorite) {
+                    view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24_red)
+                    R.drawable.ic_baseline_favorite_border_24_red
+                } else {
+                    view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_24_red)
+                    R.drawable.ic_baseline_favorite_24_red
+                }
+
+                view.isFavorite.setOnClickListener{
+                    isFavoriteChoice =
+                        if (isFavoriteChoice == R.drawable.ic_baseline_favorite_border_24_red) {
+                            view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_24_red)
+                            R.drawable.ic_baseline_favorite_24_red
+                        } else {
+                            view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24_red)
+                            R.drawable.ic_baseline_favorite_border_24_red
+                        }
+
+                    FirebaseData.firebaseUpdateFavoriteStatus(item.name)
+                }
+
                 Picasso.get().load(item.imageUrl).resize(140, 140).centerCrop().into(view.itemImage)
                 view.itemDescription.text = item.itemDescription.replace("\\n", "\n")
                 view.setOnClickListener(this)//relevant if setting onClick listener!!!
