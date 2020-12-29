@@ -10,6 +10,7 @@
     <string name="forgotPass_link">Forgot password?</string>
     <string name="send_password_link">Reset password</string>
     <string name="recover_password">Recover password</string>
+    <string name="category">Category: \n %1$s</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_search">Search</string>
