@@ -18,6 +18,8 @@ object FirebaseData{
     private var db = Firebase.firestore
     private lateinit var dataItem: Item
 
+    private fun String.getItemProperty(item: Int) = removePrefix("{").removeSuffix("}").split(", ")[item].substringAfter("=")
+
     fun firebaseDataDownload(clb: MyCallback){
         db.collection("items").get()
             .addOnSuccessListener { docs ->
@@ -25,11 +27,11 @@ object FirebaseData{
                 var id = 0
                 for (item in docs){
                     Log.d("item", item.data.toString())
-                    val imageUrl = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[0].substringAfter("=")
-                    val price = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[1].substringAfter("=").toFloat()
-                    val itemDescription = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[2].substringAfter("=")
-                    val category = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[3].substringAfter("=")
-                    val isFavorite = item.data.toString().removePrefix("{").removeSuffix("}").split(", ")[4].substringAfter("=").toBoolean()
+                    val imageUrl = item.data.toString().getItemProperty(0)
+                    val price = item.data.toString().getItemProperty(1).toFloat()
+                    val itemDescription = item.data.toString().getItemProperty(2)
+                    val category = item.data.toString().getItemProperty(3)
+                    val isFavorite = item.data.toString().getItemProperty(4).toBoolean()
 
                     dataItem = Item(
                         id = id,
