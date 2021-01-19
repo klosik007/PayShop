@@ -11,6 +11,7 @@
     <string name="send_password_link">Reset password</string>
     <string name="recover_password">Recover password</string>
     <string name="category">Category: \n %1$s</string>
+    <string name="searchResults">Search results (%1$d)</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_search">Search</string>
@@ -19,4 +20,6 @@
     <string name="nav_profile">Profile</string>
 
     <string name="good">Good</string>
+
+    <string name="filter_sort">Filter/Sort</string>
 </resources>
