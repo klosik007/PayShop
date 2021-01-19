@@ -1,16 +1,22 @@
 package com.pklos.payshop.fragments
 
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pklos.payshop.R
-import com.pklos.payshop.data.*
+import com.pklos.payshop.data.FirebaseData
+import com.pklos.payshop.data.Item
+import com.pklos.payshop.data.MyCallback
+import com.pklos.payshop.data.inflate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
@@ -32,23 +38,26 @@ class SearchFragment: Fragment() {
                 linearLayoutManager = LinearLayoutManager(context)
                 itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
                 itemRecyclerView.layoutManager = linearLayoutManager
-                updateUI()
+                updateUI(view)
             }
         })
         return view
-    }
-
-    private fun updateUI(){
-        mAdapter = RecyclerAdapter(firebaseItems)
-        itemRecyclerView.adapter = mAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //super.onViewCreated(view, savedInstanceState)
     }
 
-    class RecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapter<RecyclerAdapter.SearchItemHolder>(){
+    private fun updateUI(view: View){
+        mAdapter = RecyclerAdapter(firebaseItems)
+        itemRecyclerView.adapter = mAdapter
 
+        val searchTextView: TextView = view.findViewById(R.id.searchResultsTextView)
+        val itemsCount = mAdapter.itemCount
+        searchTextView.text = resources.getString(R.string.searchResults, itemsCount)
+    }
+
+    class RecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapter<RecyclerAdapter.SearchItemHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.SearchItemHolder {
             val inflatedView = parent.inflate(R.layout.recycleview_item_row, false)
             return SearchItemHolder(inflatedView)
@@ -71,7 +80,10 @@ class SearchFragment: Fragment() {
 
                 this.item = item
                 view.name.text = item.name
-                view.category.text = view.context.getString(R.string.category, item.category.toString())
+                view.category.text = view.context.getString(
+                    R.string.category,
+                    item.category.toString()
+                )
                 view.price.text = item.price.toString()
                 //view.isFavorite.text = item.isFavorite.toString()
                 isFavoriteChoice = if (!item.isFavorite) {
