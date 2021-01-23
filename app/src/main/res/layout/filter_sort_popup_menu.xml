@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_by"
+        android:fontFamily="@font/bubbler_one"
+        />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="true">
+
+        <LinearLayout
+            android:id="@+id/sortLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:text="@string/category_descending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"
+                android:lines="2"/>
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:text="@string/category_ascending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"/>
+
+            <Button
+                android:id="@+id/priceDescending"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/price_descending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"/>
+
+            <Button
+                android:id="@+id/priceAscending"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/price_ascending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"
+                android:lines="2"/>
+
+            <Button
+                android:id="@+id/nameDescending"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/name_descending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"/>
+
+            <Button
+                android:id="@+id/nameAscending"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/name_ascending"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/bubbler_one"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_by"
+        android:fontFamily="@font/bubbler_one"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/filterLayout"
+        android:orientation="vertical">
+
+    </LinearLayout>
+</LinearLayout>
