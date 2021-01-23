@@ -22,4 +22,12 @@
     <string name="good">Good</string>
 
     <string name="filter_sort">Filter/Sort</string>
+    <string name="category_descending">Category name:\ndescending</string>
+    <string name="category_ascending">Category name:\nascending</string>
+    <string name="price_descending">Price:\ndescending</string>
+    <string name="price_ascending">Price:\nascending</string>
+    <string name="name_descending">Name:\ndescending</string>
+    <string name="name_ascending">Name:\nascending</string>
+    <string name="sort_by">Sort By:</string>
+    <string name="filter_by">Filter By:</string>
 </resources>
