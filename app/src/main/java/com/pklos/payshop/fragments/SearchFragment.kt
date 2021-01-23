@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -26,6 +27,8 @@ class SearchFragment: Fragment() {
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
 
+    private var isSlided: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +44,14 @@ class SearchFragment: Fragment() {
                 updateUI(view)
             }
         })
+
+        val filterTextView: TextView = view.findViewById(R.id.filterTextView)
+        filterTextView.setOnClickListener{
+            val filterSortView: View = view.findViewById(R.id.filterSortMenu)
+            val recyclerView: View = view.findViewById(R.id.search_results_recycler_view)
+            onFilterSortClick(filterSortView, recyclerView)
+        }
+
         return view
     }
 
@@ -55,6 +66,39 @@ class SearchFragment: Fragment() {
         val searchTextView: TextView = view.findViewById(R.id.searchResultsTextView)
         val itemsCount = mAdapter.itemCount
         searchTextView.text = resources.getString(R.string.searchResults, itemsCount)
+    }
+
+    private fun slideFromRightToLeft(view: View){
+        view.visibility = View.VISIBLE
+        val animation: TranslateAnimation = TranslateAnimation(view.width.toFloat(), 0F, 0F, 0F)
+        animation.run{
+            duration = 500
+            fillAfter = true
+        }
+        view.startAnimation(animation)
+    }
+
+    private fun slideFromLeftToRight(view: View){
+        val animation: TranslateAnimation = TranslateAnimation( 0F,view.width.toFloat(), 0F, 0F)
+        animation.run{
+            duration = 500
+            fillAfter = true
+        }
+        view.startAnimation(animation)
+
+        view.visibility = View.INVISIBLE
+    }
+
+    private fun onFilterSortClick(vararg view: View){
+        if (!isSlided){
+            slideFromRightToLeft(view[0])
+            slideFromLeftToRight(view[1])
+        }else{
+            slideFromLeftToRight(view[0])
+            slideFromRightToLeft(view[1])
+        }
+
+        isSlided= !isSlided
     }
 
     class RecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapter<RecyclerAdapter.SearchItemHolder>(){
