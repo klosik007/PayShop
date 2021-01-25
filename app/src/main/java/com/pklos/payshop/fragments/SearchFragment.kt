@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.pklos.payshop.data.FirebaseData
 import com.pklos.payshop.data.Item
 import com.pklos.payshop.data.MyCallback
 import com.pklos.payshop.data.inflate
+import com.pklos.payshop.utils.AppUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
@@ -35,21 +39,42 @@ class SearchFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
-        FirebaseData.firebaseDataDownload(object : MyCallback {
-            override fun onCallback(value: List<Item>) {
-                firebaseItems = value
-                linearLayoutManager = LinearLayoutManager(context)
-                itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
-                itemRecyclerView.layoutManager = linearLayoutManager
-                updateUI(view)
-            }
-        })
+//        FirebaseData.firebaseDataDownload(object : MyCallback {
+//            override fun onCallback(value: List<Item>) {
+//                firebaseItems = value
+//                linearLayoutManager = LinearLayoutManager(context)
+//                itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
+//                itemRecyclerView.layoutManager = linearLayoutManager
+//                updateUI(view)
+//            }
+//        })
 
         val filterTextView: TextView = view.findViewById(R.id.filterTextView)
         filterTextView.setOnClickListener{
             val filterSortView: View = view.findViewById(R.id.filterSortMenu)
             val recyclerView: View = view.findViewById(R.id.search_results_recycler_view)
             onFilterSortClick(filterSortView, recyclerView)
+        }
+
+        val itemSearchBar: EditText = view.findViewById(R.id.itemEditText)
+        itemSearchBar.setOnEditorActionListener { v, actionId, event ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    val searchBarText: String = itemSearchBar.text.toString()
+
+                    FirebaseData.firebaseSearchByName(searchBarText, object : MyCallback {
+                        override fun onCallback(value: List<Item>) {
+                            firebaseItems = value
+                            linearLayoutManager = LinearLayoutManager(context)
+                            itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
+                            itemRecyclerView.layoutManager = linearLayoutManager
+                            updateUI(view)
+                        }
+                    })
+                    true
+                }
+                else -> false
+            }
         }
 
         return view
@@ -68,34 +93,13 @@ class SearchFragment: Fragment() {
         searchTextView.text = resources.getString(R.string.searchResults, itemsCount)
     }
 
-    private fun slideFromRightToLeft(view: View){
-        view.visibility = View.VISIBLE
-        val animation: TranslateAnimation = TranslateAnimation(view.width.toFloat(), 0F, 0F, 0F)
-        animation.run{
-            duration = 500
-            fillAfter = true
-        }
-        view.startAnimation(animation)
-    }
-
-    private fun slideFromLeftToRight(view: View){
-        val animation: TranslateAnimation = TranslateAnimation( 0F,view.width.toFloat(), 0F, 0F)
-        animation.run{
-            duration = 500
-            fillAfter = true
-        }
-        view.startAnimation(animation)
-
-        view.visibility = View.INVISIBLE
-    }
-
     private fun onFilterSortClick(vararg view: View){
         if (!isSlided){
-            slideFromRightToLeft(view[0])
-            slideFromLeftToRight(view[1])
+            AppUtils.slideFromRightToLeft(view[0])
+            AppUtils.slideFromLeftToRight(view[1])
         }else{
-            slideFromLeftToRight(view[0])
-            slideFromRightToLeft(view[1])
+            AppUtils.slideFromLeftToRight(view[0])
+            AppUtils.slideFromRightToLeft(view[1])
         }
 
         isSlided= !isSlided
@@ -117,7 +121,6 @@ class SearchFragment: Fragment() {
         class SearchItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
             private var view: View = itemView
             private var item: Item? = null
-
 
             fun bindItem(item: Item){
                 var isFavoriteChoice = 0
