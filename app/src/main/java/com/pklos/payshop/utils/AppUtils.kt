@@ -4,8 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -72,5 +74,26 @@ object AppUtils{
             in 19..23 -> "Evening"
             else -> "Night"
         }
+    }
+
+    fun slideFromRightToLeft(view: View){
+        view.visibility = View.VISIBLE
+        val animation: TranslateAnimation = TranslateAnimation(view.width.toFloat(), 0F, 0F, 0F)
+        animation.run{
+            duration = 500
+            fillAfter = true
+        }
+        view.startAnimation(animation)
+    }
+
+    fun slideFromLeftToRight(view: View){
+        val animation: TranslateAnimation = TranslateAnimation( 0F,view.width.toFloat(), 0F, 0F)
+        animation.run{
+            duration = 500
+            fillAfter = true
+        }
+        view.startAnimation(animation)
+
+        view.visibility = View.INVISIBLE
     }
 }
