@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
@@ -42,13 +43,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/itemEditText" />
 
-    <include layout="@layout/filter_sort_popup_menu"
+   <!-- <include layout="@layout/filter_sort_popup_menu"
         android:id="@+id/filterSortMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/filterSearchFragment"
         android:visibility="invisible"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results_recycler_view"
