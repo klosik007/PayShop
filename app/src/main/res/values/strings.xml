@@ -30,4 +30,13 @@
     <string name="name_ascending">Name:\nascending</string>
     <string name="sort_by">Sort By:</string>
     <string name="filter_by">Filter By:</string>
+
+    <array name="sortingBy">
+        <item>Category name:\ndescending</item>
+        <item>Category name:\nascending</item>
+        <item>Price:\ndescending</item>
+        <item>Price:\nascending</item>
+        <item>Name:\ndescending</item>
+        <item>Name:\nascending</item>
+    </array>
 </resources>
