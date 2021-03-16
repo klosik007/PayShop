@@ -1,15 +1,10 @@
 package com.pklos.payshop.fragments
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -21,20 +16,18 @@ import com.pklos.payshop.data.FirebaseData
 import com.pklos.payshop.data.Item
 import com.pklos.payshop.data.MyCallback
 import com.pklos.payshop.data.inflate
-import com.pklos.payshop.utils.AppUtils
+import com.pklos.payshop.utils.DialogInterfaceListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
-class SearchFragment: Fragment() {
+class SearchFragment: Fragment(), DialogInterfaceListener {
     private lateinit var firebaseItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
     private lateinit var searchFragmentRelativeLayout: RelativeLayout
-    //private lateinit var filterSortLinearLayout: LinearLayout
-    //private lateinit var layoutParams: RelativeLayout.LayoutParams
+
     val FILTER_TAG = 0
-    //private var isSlided: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +45,7 @@ class SearchFragment: Fragment() {
         filterTextView.setOnClickListener{
             //onFilterSortClick( filterSortLinearLayout)
             val manager: FragmentManager? = fragmentManager
-            val dialog: FiltersDialogWindowFragment = FiltersDialogWindowFragment()
+            val dialog: FiltersDialogWindowFragment = FiltersDialogWindowFragment(this)
             dialog.setTargetFragment(this, FILTER_TAG)
             if (manager != null) {
                 dialog.show(manager, "DIALOG_DATE")
@@ -60,7 +53,7 @@ class SearchFragment: Fragment() {
         }
 
         val itemSearchBar: EditText = view.findViewById(R.id.itemEditText)
-        itemSearchBar.setOnEditorActionListener { v, actionId, event ->
+        itemSearchBar.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     val searchBarText: String = itemSearchBar.text.toString()
@@ -82,6 +75,17 @@ class SearchFragment: Fragment() {
         }
 
         return view
+    }
+
+    override fun filterItemClicked(index: Int) {
+        when (index) {
+            0 -> Toast.makeText(activity, "1 klik!", Toast.LENGTH_LONG).show()
+            1 -> Toast.makeText(activity, "2 klik!", Toast.LENGTH_LONG).show()
+            2 -> Toast.makeText(activity, "3 klik!", Toast.LENGTH_LONG).show()
+            3 -> Toast.makeText(activity, "4 klik!", Toast.LENGTH_LONG).show()
+            4 -> Toast.makeText(activity, "5 klik!", Toast.LENGTH_LONG).show()
+            else -> Toast.makeText(activity, "else klik!", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,87 +111,6 @@ class SearchFragment: Fragment() {
         val itemsCount = mAdapter.itemCount
         searchTextView.text = resources.getString(R.string.searchResults, itemsCount)
     }
-/*
-    private fun onFilterSortClick(vararg view: View){
-        if (!isSlided){
-            slideFromRightToLeft(view[0], 0)
-            //slideFromLeftToRight(view[1], view[1].width)
-        }else{
-            slideFromLeftToRight(view[0], view[0].width)
-//            slideFromRightToLeft(view[0], 0)
-        }
-
-        isSlided= !isSlided
-    }
-
-    private fun slideFromRightToLeft(view: View, translateX: Int){
-        view.visibility = View.VISIBLE
-        val animation: TranslateAnimation = TranslateAnimation(view.width.toFloat(), 0F, 0F, 0F)
-        animation.run{
-            duration = 500
-            fillAfter = true
-        }
-        animation.setAnimationListener(object: Animation.AnimationListener{
-            override fun onAnimationStart(animation: Animation?) {
-                layoutParams = filterSortLinearLayout.layoutParams as RelativeLayout.LayoutParams
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                searchFragmentRelativeLayout.removeView(view)
-                filterSortLinearLayout = LinearLayout(view.context)
-                //updateRecyclerView()
-                //setSearchItemCount(view)
-
-                layoutParams.leftMargin = translateX + layoutParams.leftMargin
-                layoutParams.topMargin = layoutParams.topMargin
-                layoutParams.rightMargin = layoutParams.rightMargin
-                layoutParams.bottomMargin = layoutParams.bottomMargin
-
-                filterSortLinearLayout.layoutParams = layoutParams
-                searchFragmentRelativeLayout.addView(view)
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-                TODO("Not yet implemented")
-            }
-        })
-
-        view.startAnimation(animation)
-    }
-
-    private fun slideFromLeftToRight(view: View, translateX: Int){
-        val animation: TranslateAnimation = TranslateAnimation( 0F,view.width.toFloat(), 0F, 0F)
-        animation.run{
-            duration = 500
-            fillAfter = true
-        }
-
-        animation.setAnimationListener(object: Animation.AnimationListener{
-            override fun onAnimationStart(animation: Animation?) {
-                layoutParams = filterSortLinearLayout.layoutParams as RelativeLayout.LayoutParams
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                searchFragmentRelativeLayout.removeView(view)
-                filterSortLinearLayout = LinearLayout(view.context)
-                //updateRecyclerView()
-                //setSearchItemCount(view)
-
-                layoutParams.leftMargin = translateX + layoutParams.leftMargin
-                layoutParams.topMargin = layoutParams.topMargin
-                layoutParams.rightMargin = layoutParams.rightMargin
-                layoutParams.bottomMargin = layoutParams.bottomMargin
-
-                filterSortLinearLayout.layoutParams = layoutParams
-                searchFragmentRelativeLayout.addView(view)
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-                TODO("Not yet implemented")
-            }
-        })
-        view.startAnimation(animation)
-    }*/
 
     class RecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapter<RecyclerAdapter.SearchItemHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.SearchItemHolder {
@@ -207,7 +130,6 @@ class SearchFragment: Fragment() {
             private var item: Item? = null
 
             fun bindItem(item: Item){
-                var isFavoriteChoice = 0
 
                 this.item = item
                 view.name.text = item.name
@@ -217,7 +139,7 @@ class SearchFragment: Fragment() {
                 )
                 view.price.text = item.price.toString()
                 //view.isFavorite.text = item.isFavorite.toString()
-                isFavoriteChoice = if (!item.isFavorite) {
+                var isFavoriteChoice = if (!item.isFavorite) {
                     view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24_red)
                     R.drawable.ic_baseline_favorite_border_24_red
                 } else {
@@ -249,4 +171,6 @@ class SearchFragment: Fragment() {
             }
         }
     }
+
+
 }
