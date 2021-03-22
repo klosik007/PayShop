@@ -4,19 +4,11 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import java.sql.Date
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 
 object AppUtils{
