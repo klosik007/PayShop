@@ -1,6 +1,5 @@
 package com.pklos.payshop.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,13 +36,11 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         val view: View = inflater.inflate(R.layout.fragment_search, container, false)
 
         searchFragmentRelativeLayout = view.findViewById(R.id.searchFragmentLayout)
-        //filterSortLinearLayout = view.findViewById(R.id.filterSortMenu)
 
         setDefaultRecyclerViewOnStart(view)
 
         val filterTextView: TextView = view.findViewById(R.id.filterTextView)
         filterTextView.setOnClickListener{
-            //onFilterSortClick( filterSortLinearLayout)
             val manager: FragmentManager? = fragmentManager
             val dialog: FiltersDialogWindowFragment = FiltersDialogWindowFragment(this)
             dialog.setTargetFragment(this, FILTER_TAG)
@@ -77,13 +74,21 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         return view
     }
 
-    override fun filterItemClicked(index: Int) {
+    override fun sortItemClicked(index: Int) {
         when (index) {
             0 -> Toast.makeText(activity, "1 klik!", Toast.LENGTH_LONG).show()
             1 -> Toast.makeText(activity, "2 klik!", Toast.LENGTH_LONG).show()
             2 -> Toast.makeText(activity, "3 klik!", Toast.LENGTH_LONG).show()
             3 -> Toast.makeText(activity, "4 klik!", Toast.LENGTH_LONG).show()
             4 -> Toast.makeText(activity, "5 klik!", Toast.LENGTH_LONG).show()
+            else -> Toast.makeText(activity, "else klik!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun filterItemClicked(index: Int) {
+        when (index){
+            0 ->  Toast.makeText(activity, "category filter!", Toast.LENGTH_LONG).show()
+            1 ->  Toast.makeText(activity, "price filter!", Toast.LENGTH_LONG).show()
             else -> Toast.makeText(activity, "else klik!", Toast.LENGTH_LONG).show()
         }
     }
@@ -171,6 +176,4 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
             }
         }
     }
-
-
 }
