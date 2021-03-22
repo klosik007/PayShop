@@ -39,4 +39,9 @@
         <item>Name:\ndescending</item>
         <item>Name:\nascending</item>
     </array>
+
+    <array name="filterBy">
+        <item>Category</item>
+        <item>Price</item>
+    </array>
 </resources>
