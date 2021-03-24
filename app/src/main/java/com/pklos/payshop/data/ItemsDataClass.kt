@@ -1,12 +1,16 @@
 package com.pklos.payshop.data
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pklos.payshop.data.FirebaseData.getItemProperty
+import java.lang.IllegalArgumentException
+import java.lang.IndexOutOfBoundsException
 
 enum class Category{
     HOME, SPORT, FOOD, NONE
@@ -86,7 +90,7 @@ object FirebaseData{
         return dataList
     }
 
-    fun firebaseDataDownload(clb: MyCallback){
+    private fun firebaseDataDownload(clb: MyCallback){
         dataList.clear()
 
         db.collection("items").get()
@@ -115,14 +119,23 @@ object FirebaseData{
     }
 
     fun firebaseSearchByName(name: String, clb: MyCallback){
-        val sfDocRef = db.collection("items").document(name)
-        dataList.clear()
+        try{
+            val sfDocRef = db.collection("items").document(name)
+            dataList.clear()
 
-        sfDocRef.get().addOnSuccessListener { doc ->
-            processDataItem(doc)
-            clb.onCallback(dataList)
+            sfDocRef.get().addOnSuccessListener { doc ->
+                processDataItem(doc)
+                clb.onCallback(dataList)
+            }
+        } catch (e: IllegalArgumentException){
+            Log.w("firebaseSearchByName", "IllegalArgumentException - no text provided -> whole base download", e)
+            firebaseDataDownload(clb)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w("firebaseSearchByName", "IndexOutOfBoundsException - no such item in base", e)
         }
     }
 
-
+    fun firebaseSortByCategoryNameDescending(clb: MyCallback){
+        
+    }
 }
