@@ -15,11 +15,10 @@ import com.pklos.payshop.data.FirebaseData
 import com.pklos.payshop.data.Item
 import com.pklos.payshop.data.MyCallback
 import com.pklos.payshop.data.inflate
-import com.pklos.payshop.utils.DialogInterfaceListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
-class SearchFragment: Fragment(), DialogInterfaceListener {
+class SearchFragment: Fragment() {
     private lateinit var firebaseItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
@@ -42,7 +41,7 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         val filterTextView: TextView = view.findViewById(R.id.filterTextView)
         filterTextView.setOnClickListener{
             val manager: FragmentManager? = fragmentManager
-            val dialog: FiltersDialogWindowFragment = FiltersDialogWindowFragment(this)
+            val dialog = FiltersDialogWindowFragment()
             dialog.setTargetFragment(this, FILTER_TAG)
             if (manager != null) {
                 dialog.show(manager, "DIALOG_DATE")
@@ -72,25 +71,6 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         }
 
         return view
-    }
-
-    override fun sortItemClicked(index: Int) {
-        when (index) {
-            0 -> Toast.makeText(activity, "1 klik!", Toast.LENGTH_LONG).show()
-            1 -> Toast.makeText(activity, "2 klik!", Toast.LENGTH_LONG).show()
-            2 -> Toast.makeText(activity, "3 klik!", Toast.LENGTH_LONG).show()
-            3 -> Toast.makeText(activity, "4 klik!", Toast.LENGTH_LONG).show()
-            4 -> Toast.makeText(activity, "5 klik!", Toast.LENGTH_LONG).show()
-            else -> Toast.makeText(activity, "else klik!", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    override fun filterItemClicked(index: Int) {
-        when (index){
-            0 ->  Toast.makeText(activity, "category filter!", Toast.LENGTH_LONG).show()
-            1 ->  Toast.makeText(activity, "price filter!", Toast.LENGTH_LONG).show()
-            else -> Toast.makeText(activity, "else klik!", Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
