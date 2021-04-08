@@ -16,6 +16,10 @@ enum class Category{
     HOME, SPORT, FOOD, NONE
 }
 
+enum class OrderFilter{
+    DESC, ASC
+}
+
 data class Item(val id: Int, val name: String, val category: Category, val price: Float, var isFavorite: Boolean, val imageUrl: String, val itemDescription: String) {
     override fun toString(): String {
         return "Id: $id \n Name: $name \n Category: $category \n Price: $price \n Is favorite: $isFavorite \n Image URL: $imageUrl \n Item Description: "
@@ -135,7 +139,69 @@ object FirebaseData{
         }
     }
 
-    fun firebaseSortByCategoryNameDescending(clb: MyCallback){
-        
+    fun firebaseSortByCategoryName(order: OrderFilter, clb: MyCallback){
+        try{
+            if(dataList.isNotEmpty()) {
+                when(order){
+                    OrderFilter.DESC ->{
+                        dataList.sortByDescending { it.category }
+                    }
+
+                    OrderFilter.ASC -> {
+                        dataList.sortBy { it.category }
+                    }
+                }
+
+                clb.onCallback(dataList)
+            }
+        }catch (e: IllegalArgumentException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
+    }
+
+    fun firebaseSortByPrice(order: OrderFilter, clb: MyCallback){
+        try{
+            if(dataList.isNotEmpty()) {
+                when(order){
+                    OrderFilter.DESC ->{
+                        dataList.sortByDescending { it.price }
+                    }
+
+                    OrderFilter.ASC -> {
+                        dataList.sortBy { it.price }
+                    }
+                }
+
+                clb.onCallback(dataList)
+            }
+        }catch (e: IllegalArgumentException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
+    }
+
+    fun firebaseSortByItemName(order: OrderFilter, clb: MyCallback){
+        try{
+            if(dataList.isNotEmpty()) {
+                when(order){
+                    OrderFilter.DESC ->{
+                        dataList.sortByDescending { it.name }
+                    }
+
+                    OrderFilter.ASC -> {
+                        dataList.sortBy { it.name }
+                    }
+                }
+
+                clb.onCallback(dataList)
+            }
+        }catch (e: IllegalArgumentException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
     }
 }
