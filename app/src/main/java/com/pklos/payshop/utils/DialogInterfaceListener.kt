@@ -1,6 +1,10 @@
 package com.pklos.payshop.utils
 
 interface DialogInterfaceListener {
-    fun sortItemClicked(index: Int)
-    fun filterItemClicked(index: Int)
+    fun firebaseSortByCategoryNameDescending()
+    fun firebaseSortByCategoryNameAscending()
+    fun firebaseSortPriceDescending()
+    fun firebaseSortPriceAscending()
+    fun firebaseSortNameDescending()
+    fun firebaseSortNameAscending()
 }
