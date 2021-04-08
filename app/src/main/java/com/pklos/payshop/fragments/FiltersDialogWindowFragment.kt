@@ -12,9 +12,9 @@ import com.pklos.payshop.utils.DialogInterfaceListener
 import kotlinx.android.synthetic.*
 import java.lang.IllegalStateException
 
-class FiltersDialogWindowFragment : DialogFragment() {
+class FiltersDialogWindowFragment(var listner: DialogInterfaceListener) : DialogFragment() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog{
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -22,32 +22,32 @@ class FiltersDialogWindowFragment : DialogFragment() {
 
             val sortCategoryDescending: Button = view.findViewById(R.id.sortBy_categoryDescending)
             sortCategoryDescending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_categoryDescending", Toast.LENGTH_LONG).show()
+               listner.firebaseSortByCategoryNameDescending()
             }
 
             val sortCategoryAscending: Button = view.findViewById(R.id.sortBy_categoryAscending)
             sortCategoryAscending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_categoryAscending", Toast.LENGTH_LONG).show()
+                listner.firebaseSortByCategoryNameAscending()
             }
 
             val sortPriceDescending: Button = view.findViewById(R.id.sortBy_priceDescending)
             sortPriceDescending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_priceDescending", Toast.LENGTH_LONG).show()
+                listner.firebaseSortPriceDescending()
             }
 
             val sortPriceAscending: Button = view.findViewById(R.id.sortBy_priceAscending)
             sortPriceAscending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_priceAscending", Toast.LENGTH_LONG).show()
+                listner.firebaseSortPriceAscending()
             }
 
             val sortNameDescending: Button = view.findViewById(R.id.sortBy_nameDescending)
             sortNameDescending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_nameDescending", Toast.LENGTH_LONG).show()
+                listner.firebaseSortNameDescending()
             }
 
             val sortNameAscending: Button = view.findViewById(R.id.sortBy_nameAscending)
             sortNameAscending.setOnClickListener {
-                Toast.makeText(activity, "sortBy_nameAscending", Toast.LENGTH_LONG).show()
+                listner.firebaseSortNameAscending()
             }
 
             builder.setView(view)
