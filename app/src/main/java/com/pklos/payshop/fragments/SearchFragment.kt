@@ -11,19 +11,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pklos.payshop.R
-import com.pklos.payshop.data.FirebaseData
-import com.pklos.payshop.data.Item
-import com.pklos.payshop.data.MyCallback
-import com.pklos.payshop.data.inflate
+import com.pklos.payshop.data.*
+import com.pklos.payshop.utils.DialogInterfaceListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
 
-class SearchFragment: Fragment() {
+class SearchFragment: Fragment(), DialogInterfaceListener {
     private lateinit var firebaseItems: List<Item>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var mAdapter: RecyclerAdapter
     private lateinit var itemRecyclerView: RecyclerView
     private lateinit var searchFragmentRelativeLayout: RelativeLayout
+    private lateinit var rootView: View
 
     val FILTER_TAG = 0
 
@@ -32,23 +31,27 @@ class SearchFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_search, container, false)
+        //val view: View = inflater.inflate(R.layout.fragment_search, container, false)
+        rootView = inflater.inflate(R.layout.fragment_search, container, false)
+        searchFragmentRelativeLayout = rootView.findViewById(R.id.searchFragmentLayout)
 
-        searchFragmentRelativeLayout = view.findViewById(R.id.searchFragmentLayout)
+        //setDefaultRecyclerViewOnStart(view)
+        setDefaultRecyclerViewOnStart(rootView)
 
-        setDefaultRecyclerViewOnStart(view)
 
-        val filterTextView: TextView = view.findViewById(R.id.filterTextView)
+        //val filterTextView: TextView = view.findViewById(R.id.filterTextView)
+        val filterTextView: TextView = rootView.findViewById(R.id.filterTextView)
         filterTextView.setOnClickListener{
             val manager: FragmentManager? = fragmentManager
-            val dialog = FiltersDialogWindowFragment()
+            val dialog = FiltersDialogWindowFragment(this)
             dialog.setTargetFragment(this, FILTER_TAG)
             if (manager != null) {
                 dialog.show(manager, "DIALOG_DATE")
             }
         }
 
-        val itemSearchBar: EditText = view.findViewById(R.id.itemEditText)
+        //val itemSearchBar: EditText = view.findViewById(R.id.itemEditText)
+        val itemSearchBar: EditText = rootView.findViewById(R.id.itemEditText)
         itemSearchBar.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
@@ -56,12 +59,7 @@ class SearchFragment: Fragment() {
 
                     FirebaseData.firebaseSearchByName(searchBarText, object : MyCallback {
                         override fun onCallback(value: List<Item>) {
-                            firebaseItems = value
-                            linearLayoutManager = LinearLayoutManager(context)
-                            itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
-                            itemRecyclerView.layoutManager = linearLayoutManager
-                            updateRecyclerView()
-                            setSearchItemCount(view)
+                            updateRecyclerViewOnCallback(value)
                         }
                     })
                     true
@@ -70,7 +68,19 @@ class SearchFragment: Fragment() {
             }
         }
 
-        return view
+        //return view
+        return rootView
+    }
+
+    private fun updateRecyclerViewOnCallback(value: List<Item>){
+        firebaseItems = value
+        linearLayoutManager = LinearLayoutManager(context)
+        //itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
+        itemRecyclerView = rootView.findViewById(R.id.search_results_recycler_view)
+        itemRecyclerView.layoutManager = linearLayoutManager
+        updateRecyclerView()
+        //setSearchItemCount(view)
+        setSearchItemCount(rootView)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -155,5 +165,53 @@ class SearchFragment: Fragment() {
                 Toast.makeText(context, "${item?.name} klik!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun firebaseSortByCategoryNameDescending() {
+        FirebaseData.firebaseSortByCategoryName(OrderFilter.DESC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
+
+    override fun firebaseSortByCategoryNameAscending() {
+        FirebaseData.firebaseSortByCategoryName(OrderFilter.ASC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
+
+    override fun firebaseSortPriceDescending() {
+        FirebaseData.firebaseSortByPrice(OrderFilter.DESC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
+
+    override fun firebaseSortPriceAscending() {
+        FirebaseData.firebaseSortByPrice(OrderFilter.ASC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
+
+    override fun firebaseSortNameDescending() {
+        FirebaseData.firebaseSortByItemName(OrderFilter.DESC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
+
+    override fun firebaseSortNameAscending() {
+        FirebaseData.firebaseSortByItemName(OrderFilter.ASC, object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
     }
 }
