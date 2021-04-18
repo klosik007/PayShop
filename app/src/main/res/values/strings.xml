@@ -31,8 +31,11 @@
     <string name="name_descending">Name:\ndescending</string>
     <string name="name_ascending">Name:\nascending</string>
 
-    <string name="filter_by">Filter By:</string>
+    <string name="filter_by">Filter By:\n</string>
     <string name="filter_by_category">Category</string>
     <string name="filter_by_price">Price</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="apply_filters">Apply Filters</string>
 
 </resources>
