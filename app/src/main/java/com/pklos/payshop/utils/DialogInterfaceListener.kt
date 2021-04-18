@@ -7,4 +7,5 @@ interface DialogInterfaceListener {
     fun firebaseSortPriceAscending()
     fun firebaseSortNameDescending()
     fun firebaseSortNameAscending()
+    fun firebaseApplyFilters()
 }
