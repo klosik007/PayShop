@@ -31,6 +31,9 @@ object FirebaseData{
     private lateinit var dataItem: Item
     private fun String.getItemProperty(item: Int) = removePrefix("{").removeSuffix("}").split(", ")[item].substringAfter("=")
     private val dataList = mutableListOf<Item>()
+    val checkboxFilters = mutableListOf<(Item) -> Boolean>()
+    var priceFrom: Int = 0
+    var priceTo: Int? = null
 
     private fun processDataItem(doc: QuerySnapshot): List<Item>{
         var id = 0
@@ -202,6 +205,60 @@ object FirebaseData{
             Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
         } catch (e: IndexOutOfBoundsException){
             Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
+    }
+
+    private fun firebaseFilterByPrice(from: Int = 0, to: Int?/*, clb:MyCallback*/){
+        try{
+           // if(dataList.isNotEmpty()) {
+                if (to == null || to == 0 || to < from){
+                    dataList.filter {
+                        it.price >= from
+                    }
+                }
+                else{
+                    dataList.filter {
+                        it.price >= from && it.price <= to
+                    }
+                }
+
+//                clb.onCallback(dataList)
+           // }
+        }catch (e: IllegalArgumentException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
+    }
+
+//    private fun firebaseCategoryFilters() = listOf<(Item) -> Boolean>(
+//        { it.category == Category.FOOD},
+//        { it.category == Category.HOME},
+//        { it.category == Category.SPORT}
+//    )
+
+    private fun firebaseFilterByCategoryName(filters: List<(Item) -> Boolean>/*, clb: MyCallback*/){
+        try{
+            //if(dataList.isNotEmpty()) {
+                dataList.filter {
+                    category -> filters.all { filter -> filter(category) }
+                }
+
+               // clb.onCallback(dataList)
+           // }
+        }catch (e: IllegalArgumentException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
+        } catch (e: IndexOutOfBoundsException){
+            Log.w(" firebaseSortByCategoryNameDescending", "IndexOutOfBoundsException", e)
+        }
+    }
+
+    fun firebaseApplyFilters(clb: MyCallback){
+        if(dataList.isNotEmpty()){
+            firebaseFilterByPrice(priceFrom, priceTo)
+            firebaseFilterByCategoryName(checkboxFilters)
+
+            clb.onCallback(dataList)
         }
     }
 }
