@@ -214,4 +214,12 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
             }
         })
     }
+
+    override fun firebaseApplyFilters() {
+        FirebaseData.firebaseApplyFilters(object: MyCallback{
+            override fun onCallback(value: List<Item>) {
+                updateRecyclerViewOnCallback(value)
+            }
+        })
+    }
 }
