@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -103,37 +104,89 @@
         android:text="@string/filter_by"
         android:fontFamily="@font/bubbler_one"
         />
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fadeScrollbars="true">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/filterLayout"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/filter_by_category"
+            android:fontFamily="@font/bubbler_one"
+        />
+
+<!--        <Button-->
+<!--            style="?android:attr/buttonBarButtonStyle"-->
+<!--            android:id="@+id/filterBy_category"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:text="@string/filter_by_category"-->
+<!--            android:textColor="@color/colorPrimaryDark"-->
+<!--            android:textSize="12sp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:fontFamily="@font/bubbler_one"-->
+<!--            android:lines="2"/>-->
+
+        <CheckBox
+            android:id="@+id/sportCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SPORT" />
+
+        <CheckBox
+            android:id="@+id/homeCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HOME" />
+
+        <CheckBox
+            android:id="@+id/foodCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FOOD" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/filter_by_price"
+            android:fontFamily="@font/bubbler_one"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/priceFilter"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/priceFromEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:autofillHints="@string/from"
+                tools:ignore="LabelFor"
+                android:background="@drawable/rounded_plain_text"/>
+            <EditText
+                android:id="@+id/priceToEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:autofillHints="@string/to"
+                tools:ignore="LabelFor"
+                android:background="@drawable/rounded_plain_text"/>
+        </LinearLayout>
         <Button
             style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/filterBy_category"
-            android:layout_width="100dp"
+            android:id="@+id/sortApplyBtn"
+            android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:text="@string/filter_by_category"
+            android:text="@string/apply_filters"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textAllCaps="false"
             android:fontFamily="@font/bubbler_one"
-            android:lines="2"/>
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/filterBy_price"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:text="@string/filter_by_price"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp"
-            android:textAllCaps="false"
-            android:fontFamily="@font/bubbler_one"/>
+            android:layout_gravity="center"/>
     </LinearLayout>
-    </HorizontalScrollView>
+
 </LinearLayout>
