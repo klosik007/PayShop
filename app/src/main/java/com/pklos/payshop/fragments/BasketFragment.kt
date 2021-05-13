@@ -7,14 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.pklos.payshop.R
 import com.pklos.payshop.utils.AppUtils
+import com.pklos.payshop.databinding.FragmentBasketBinding
 
 class BasketFragment: Fragment() {
+
+    private var _binding: FragmentBasketBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_basket, container, false)
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
