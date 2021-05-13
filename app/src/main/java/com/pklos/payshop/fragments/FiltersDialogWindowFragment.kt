@@ -10,77 +10,97 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.pklos.payshop.R
+import com.pklos.payshop.activities.MainActivity
 import com.pklos.payshop.data.Category
 import com.pklos.payshop.data.FirebaseData
 import com.pklos.payshop.data.Item
+import com.pklos.payshop.databinding.FilterSearchFragmentBinding
+import com.pklos.payshop.databinding.FilterSortPopupMenuBinding
 import com.pklos.payshop.utils.DialogInterfaceListener
 import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.filter_sort_popup_menu.view.*
 import java.lang.IllegalStateException
 
 class FiltersDialogWindowFragment(var listner: DialogInterfaceListener) : DialogFragment() {
+
+    private lateinit var binding: FilterSortPopupMenuBinding
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog{
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view: View = inflater.inflate(R.layout.filter_sort_popup_menu, null, false)
+            binding = FilterSortPopupMenuBinding.inflate(inflater)
+            val view = binding.root
 
-            val sortCategoryDescending: Button = view.findViewById(R.id.sortBy_categoryDescending)
-            sortCategoryDescending.setOnClickListener {
-               listner.firebaseSortByCategoryNameDescending()
-            }
+            with (view){
+                sortBy_categoryDescending.setOnClickListener {
+                    listner.firebaseSortByCategoryNameDescending()
+                }
 
-            val sortCategoryAscending: Button = view.findViewById(R.id.sortBy_categoryAscending)
-            sortCategoryAscending.setOnClickListener {
-                listner.firebaseSortByCategoryNameAscending()
-            }
+                sortBy_categoryAscending.setOnClickListener {
+                    listner.firebaseSortByCategoryNameAscending()
+                }
 
-            val sortPriceDescending: Button = view.findViewById(R.id.sortBy_priceDescending)
-            sortPriceDescending.setOnClickListener {
-                listner.firebaseSortPriceDescending()
-            }
+                sortBy_priceDescending.setOnClickListener {
+                    listner.firebaseSortPriceDescending()
+                }
 
-            val sortPriceAscending: Button = view.findViewById(R.id.sortBy_priceAscending)
-            sortPriceAscending.setOnClickListener {
-                listner.firebaseSortPriceAscending()
-            }
+                sortBy_priceAscending.setOnClickListener {
+                    listner.firebaseSortPriceAscending()
+                }
 
-            val sortNameDescending: Button = view.findViewById(R.id.sortBy_nameDescending)
-            sortNameDescending.setOnClickListener {
-                listner.firebaseSortNameDescending()
-            }
+                sortBy_nameDescending.setOnClickListener {
+                    listner.firebaseSortNameDescending()
+                }
 
-            val sortNameAscending: Button = view.findViewById(R.id.sortBy_nameAscending)
-            sortNameAscending.setOnClickListener {
-                listner.firebaseSortNameAscending()
-            }
+                sortBy_nameAscending.setOnClickListener {
+                    listner.firebaseSortNameAscending()
+                }
 
-            val sportCategoryCheckbox: CheckBox = view.findViewById(R.id.sportCategory)
-            sportCategoryCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked){
-                    FirebaseData.checkboxFilters.add { filter -> filter.category == Category.SPORT}
-                }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.SPORT }
-            }
+                sportCategory.setOnCheckedChangeListener { _, isChecked ->
+                    if(isChecked){
+                        FirebaseData.checkboxFilters.add { filter -> filter.category == Category.SPORT}
+                    }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.SPORT }
+                }
 
-            val homeCategoryCheckbox: CheckBox = view.findViewById(R.id.homeCategory)
-            homeCategoryCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked){
-                    FirebaseData.checkboxFilters.add { filter -> filter.category == Category.HOME}
-                }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.HOME }
-            }
+                homeCategory.setOnCheckedChangeListener { _, isChecked ->
+                    if(isChecked){
+                        FirebaseData.checkboxFilters.add { filter -> filter.category == Category.HOME}
+                    }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.HOME }
+                }
 
-            val foodCategoryCheckbox: CheckBox = view.findViewById(R.id.foodCategory)
-            foodCategoryCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked){
-                    FirebaseData.checkboxFilters.add { filter -> filter.category == Category.FOOD}
-                }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.FOOD }
-            }
+                foodCategory.setOnCheckedChangeListener { _, isChecked ->
+                    if(isChecked){
+                        FirebaseData.checkboxFilters.add { filter -> filter.category == Category.FOOD}
+                    }else FirebaseData.checkboxFilters.remove { filter -> filter.category == Category.FOOD }
+                }
 
-            val editTextPriceFrom: EditText = view.findViewById(R.id.priceFromEditText)
-            //FirebaseData.priceFrom = editTextPriceFrom.text
+                sortApplyBtn.setOnClickListener {
+                    var priceFrom = 0
+                    var priceTo: Int? = 0
 
-            val applyFiltersBtn: Button = view.findViewById(R.id.sortApplyBtn)
-            applyFiltersBtn.setOnClickListener {
-                listner.firebaseApplyFilters()
+                    if (priceFromEditText.text.toString().isEmpty() && priceToEditText.text.toString().isEmpty()){
+                        priceTo = null
+                    }
+
+                    if (priceFromEditText.text.toString().isNotEmpty() && priceToEditText.text.toString().isNotEmpty()){
+                        priceFrom = priceFromEditText.text.toString().toInt()
+                        priceTo = priceToEditText.text.toString().toInt()
+                    }
+
+                    if (priceFromEditText.text.toString().isEmpty() && priceToEditText.text.toString().isNotEmpty()){
+                        priceFrom = 0
+                    }
+
+                    if (priceFromEditText.text.toString().isNotEmpty() && priceToEditText.text.toString().isEmpty()){
+                        priceTo = null
+                    }
+
+                    FirebaseData.priceFrom = priceFrom
+                    FirebaseData.priceTo = priceTo
+                    listner.firebaseApplyFilters()
+
+                }
             }
 
             builder.setView(view)
