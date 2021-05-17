@@ -30,7 +30,7 @@ object FirebaseData{
     private var db = Firebase.firestore
     private lateinit var dataItem: Item
     private fun String.getItemProperty(item: Int) = removePrefix("{").removeSuffix("}").split(", ")[item].substringAfter("=")
-    private val dataList = mutableListOf<Item>()
+    private var dataList = mutableListOf<Item>()
     val checkboxFilters = mutableListOf<(Item) -> Boolean>()
     var priceFrom: Int = 0
     var priceTo: Int? = null
@@ -208,22 +208,20 @@ object FirebaseData{
         }
     }
 
-    private fun firebaseFilterByPrice(from: Int = 0, to: Int?/*, clb:MyCallback*/){
+    private fun firebaseFilterByPrice(from: Int = 0, to: Int? /*,clb:MyCallback*/){
         try{
-           // if(dataList.isNotEmpty()) {
-                if (to == null || to == 0 || to < from){
-                    dataList.filter {
-                        it.price >= from
-                    }
-                }
-                else{
-                    dataList.filter {
-                        it.price >= from && it.price <= to
-                    }
-                }
+            val filteredListByPrice = if (to == null || to == 0 || to < from){
+                dataList.filter {
+                    it.price >= from
+                } as MutableList<Item>
+            } else{
+                dataList.filter {
+                    it.price >= from && it.price <= to
+                } as MutableList<Item>
+            }
 
-//                clb.onCallback(dataList)
-           // }
+            dataList = filteredListByPrice
+
         }catch (e: IllegalArgumentException){
             Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
         } catch (e: IndexOutOfBoundsException){
@@ -256,8 +254,7 @@ object FirebaseData{
     fun firebaseApplyFilters(clb: MyCallback){
         if(dataList.isNotEmpty()){
             firebaseFilterByPrice(priceFrom, priceTo)
-            firebaseFilterByCategoryName(checkboxFilters)
-
+            //firebaseFilterByCategoryName(checkboxFilters)
             clb.onCallback(dataList)
         }
     }
