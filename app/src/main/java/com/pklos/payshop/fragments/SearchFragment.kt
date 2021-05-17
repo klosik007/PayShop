@@ -31,15 +31,10 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //val view: View = inflater.inflate(R.layout.fragment_search, container, false)
         rootView = inflater.inflate(R.layout.fragment_search, container, false)
         searchFragmentRelativeLayout = rootView.findViewById(R.id.searchFragmentLayout)
-
-        //setDefaultRecyclerViewOnStart(view)
         setDefaultRecyclerViewOnStart(rootView)
 
-
-        //val filterTextView: TextView = view.findViewById(R.id.filterTextView)
         val filterTextView: TextView = rootView.findViewById(R.id.filterTextView)
         filterTextView.setOnClickListener{
             val manager: FragmentManager? = fragmentManager
@@ -50,7 +45,6 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
             }
         }
 
-        //val itemSearchBar: EditText = view.findViewById(R.id.itemEditText)
         val itemSearchBar: EditText = rootView.findViewById(R.id.itemEditText)
         itemSearchBar.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
@@ -68,18 +62,15 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
             }
         }
 
-        //return view
         return rootView
     }
 
     private fun updateRecyclerViewOnCallback(value: List<Item>){
         firebaseItems = value
         linearLayoutManager = LinearLayoutManager(context)
-        //itemRecyclerView = view.findViewById(R.id.search_results_recycler_view)
         itemRecyclerView = rootView.findViewById(R.id.search_results_recycler_view)
         itemRecyclerView.layoutManager = linearLayoutManager
         updateRecyclerView()
-        //setSearchItemCount(view)
         setSearchItemCount(rootView)
     }
 
