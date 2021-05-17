@@ -3,21 +3,11 @@ package com.pklos.payshop.fragments
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.pklos.payshop.R
-import com.pklos.payshop.activities.MainActivity
 import com.pklos.payshop.data.Category
 import com.pklos.payshop.data.FirebaseData
-import com.pklos.payshop.data.Item
-import com.pklos.payshop.databinding.FilterSearchFragmentBinding
 import com.pklos.payshop.databinding.FilterSortPopupMenuBinding
 import com.pklos.payshop.utils.DialogInterfaceListener
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.filter_sort_popup_menu.view.*
 import java.lang.IllegalStateException
 
@@ -90,9 +80,11 @@ class FiltersDialogWindowFragment(var listner: DialogInterfaceListener) : Dialog
 
                     if (priceFromEditText.text.toString().isEmpty() && priceToEditText.text.toString().isNotEmpty()){
                         priceFrom = 0
+                        priceTo = priceToEditText.text.toString().toInt()
                     }
 
                     if (priceFromEditText.text.toString().isNotEmpty() && priceToEditText.text.toString().isEmpty()){
+                        priceFrom = priceFromEditText.text.toString().toInt()
                         priceTo = null
                     }
 
