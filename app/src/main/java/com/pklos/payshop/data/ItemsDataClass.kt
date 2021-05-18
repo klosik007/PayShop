@@ -31,7 +31,7 @@ object FirebaseData{
     private lateinit var dataItem: Item
     private fun String.getItemProperty(item: Int) = removePrefix("{").removeSuffix("}").split(", ")[item].substringAfter("=")
     private var dataList = mutableListOf<Item>()
-    val checkboxFilters = mutableListOf<(Item) -> Boolean>()
+    val checkboxFilters = mutableSetOf<(Item) -> Boolean>()
     var priceFrom: Int = 0
     var priceTo: Int? = null
 
@@ -118,7 +118,6 @@ object FirebaseData{
 
             val newFavoriteStatus = !(snapshot.getBoolean("isFavorite")!!)
             transaction.update(sfDocRef, "isFavorite", newFavoriteStatus)
-            //transaction.update(sfDocRef, "isFavorite", newValue)
 
             null
         }.addOnSuccessListener { Log.d("updateData", "Transaction success!") }
@@ -213,14 +212,14 @@ object FirebaseData{
             val filteredListByPrice = if (to == null || to == 0 || to < from){
                 dataList.filter {
                     it.price >= from
-                } as MutableList<Item>
+                }
             } else{
                 dataList.filter {
                     it.price >= from && it.price <= to
-                } as MutableList<Item>
+                }
             }
 
-            dataList = filteredListByPrice
+            dataList = filteredListByPrice.toMutableList()
 
         }catch (e: IllegalArgumentException){
             Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
@@ -235,15 +234,10 @@ object FirebaseData{
 //        { it.category == Category.SPORT}
 //    )
 
-    private fun firebaseFilterByCategoryName(filters: List<(Item) -> Boolean>/*, clb: MyCallback*/){
+    private fun firebaseFilterByCategoryName(filters: Set<(Item) -> Boolean>/*, clb: MyCallback*/){
         try{
-            //if(dataList.isNotEmpty()) {
-                dataList.filter {
-                    category -> filters.all { filter -> filter(category) }
-                }
-
-               // clb.onCallback(dataList)
-           // }
+            val filteredListByCategory = dataList.filter { category -> filters.all { filter -> filter(category) } }
+            dataList = filteredListByCategory.toMutableList()
         }catch (e: IllegalArgumentException){
             Log.w(" firebaseSortByCategoryNameDescending", "IllegalArgumentException", e)
         } catch (e: IndexOutOfBoundsException){
@@ -254,7 +248,7 @@ object FirebaseData{
     fun firebaseApplyFilters(clb: MyCallback){
         if(dataList.isNotEmpty()){
             firebaseFilterByPrice(priceFrom, priceTo)
-            //firebaseFilterByCategoryName(checkboxFilters)
+            firebaseFilterByCategoryName(checkboxFilters)
             clb.onCallback(dataList)
         }
     }
