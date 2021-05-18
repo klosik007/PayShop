@@ -116,35 +116,24 @@
             android:fontFamily="@font/bubbler_one"
         />
 
-<!--        <Button-->
-<!--            style="?android:attr/buttonBarButtonStyle"-->
-<!--            android:id="@+id/filterBy_category"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="70dp"-->
-<!--            android:text="@string/filter_by_category"-->
-<!--            android:textColor="@color/colorPrimaryDark"-->
-<!--            android:textSize="12sp"-->
-<!--            android:textAllCaps="false"-->
-<!--            android:fontFamily="@font/bubbler_one"-->
-<!--            android:lines="2"/>-->
-
         <CheckBox
             android:id="@+id/sportCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SPORT" />
+            android:text="@string/filterpopup_SPORT"
+            />
 
         <CheckBox
             android:id="@+id/homeCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HOME" />
+            android:text="@string/filterpopup_HOME" />
 
         <CheckBox
             android:id="@+id/foodCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FOOD" />
+            android:text="@string/filterpopup_FOOD" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,7 +145,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/priceFilter"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
             <EditText
                 android:id="@+id/priceFromEditText"
                 android:layout_width="match_parent"
@@ -165,7 +155,8 @@
                 android:inputType="numberSigned"
                 android:autofillHints="@string/from"
                 tools:ignore="LabelFor"
-                android:background="@drawable/rounded_plain_text"/>
+                android:background="@drawable/rounded_plain_text"
+                android:layout_weight="1"/>
             <EditText
                 android:id="@+id/priceToEditText"
                 android:layout_width="match_parent"
@@ -174,7 +165,8 @@
                 android:inputType="numberSigned"
                 android:autofillHints="@string/to"
                 tools:ignore="LabelFor"
-                android:background="@drawable/rounded_plain_text"/>
+                android:background="@drawable/rounded_plain_text"
+                android:layout_weight="1"/>
         </LinearLayout>
         <Button
             style="?android:attr/buttonBarButtonStyle"
