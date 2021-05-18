@@ -38,4 +38,8 @@
     <string name="to">to</string>
     <string name="apply_filters">Apply Filters</string>
 
+    <string name="filterpopup_HOME">HOME</string>
+    <string name="filterpopup_FOOD">FOOD</string>
+    <string name="filterpopup_SPORT">SPORT</string>
+
 </resources>
