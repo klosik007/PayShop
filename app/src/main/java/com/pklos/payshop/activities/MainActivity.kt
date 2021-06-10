@@ -3,8 +3,10 @@ package com.pklos.payshop.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pklos.payshop.R
+import com.pklos.payshop.db.AppDb
 import com.pklos.payshop.fragments.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         bottomNavView.setOnNavigationItemSelectedListener(bottomNavListener)
+
+        val seenItemsDb = Room.databaseBuilder(applicationContext, AppDb::class.java, "seen-items.db")
+                              .build()
 
         supportFragmentManager
             .beginTransaction()
