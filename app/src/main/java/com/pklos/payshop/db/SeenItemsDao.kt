@@ -7,7 +7,7 @@ import androidx.room.Query
 
 @Dao
 interface SeenItemsDao {
-    @Query("SELECT * FROM seenitems")
+    @Query("SELECT * FROM seen_items")
     fun getAllSeenItems() : List<SeenItems>
 
     @Insert
