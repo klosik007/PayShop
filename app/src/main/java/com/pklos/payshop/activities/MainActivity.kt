@@ -17,9 +17,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         bottomNavView.setOnNavigationItemSelectedListener(bottomNavListener)
 
-        val seenItemsDb = Room.databaseBuilder(applicationContext, AppDb::class.java, "seen-items.db")
-                              .build()
-
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.view_pager, HomeFragment())
