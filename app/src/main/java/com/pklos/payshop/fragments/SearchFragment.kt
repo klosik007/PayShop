@@ -12,9 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pklos.payshop.R
 import com.pklos.payshop.data.*
+import com.pklos.payshop.db.AppDb
 import com.pklos.payshop.utils.DialogInterfaceListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycleview_item_row.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SearchFragment: Fragment(), DialogInterfaceListener {
     private lateinit var firebaseItems: List<Item>
@@ -114,8 +118,8 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
         class SearchItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
             private var view: View = itemView
             private var item: Item? = null
-
             fun bindItem(item: Item){
+                val db = AppDb(view.context)
 
                 this.item = item
                 view.name.text = item.name
@@ -124,7 +128,6 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
                     item.category.toString()
                 )
                 view.price.text = item.price.toString()
-                //view.isFavorite.text = item.isFavorite.toString()
                 var isFavoriteChoice = if (!item.isFavorite) {
                     view.isFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24_red)
                     R.drawable.ic_baseline_favorite_border_24_red
@@ -144,6 +147,11 @@ class SearchFragment: Fragment(), DialogInterfaceListener {
                         }
 
                     FirebaseData.firebaseUpdateFavoriteStatus(item.name)
+//                    runBlocking {
+//                       GlobalScope.launch {
+//                           db.seenItemsDao().insertSeenItem()
+//                       }
+//                    }
                 }
 
                 Picasso.get().load(item.imageUrl).resize(140, 140).centerCrop().into(view.itemImage)
